@@ -267,7 +267,6 @@ class Game:
         return self.maze_map[int(y)][int(x)] == '%'
 
 
-
 if __name__ == "__main__":
     game = Game(Maze.generate(GENERATOR_MAP_WIDTH, GENERATOR_MAP_HEIGHT))
     game.run()

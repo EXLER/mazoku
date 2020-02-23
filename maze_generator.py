@@ -112,7 +112,6 @@ class Maze:
 
         random.choice(self.cells).target = True
 
-
     def to_string(self):
         """
         Returns a string representation of the maze matrix.
@@ -135,7 +134,6 @@ class Maze:
                 str_matrix[y][x] = '%'
 
         return '\n'.join(''.join(line) for line in str_matrix)
-
 
     @staticmethod
     def generate(width=16, height=16):
