@@ -5,7 +5,7 @@
 
 <p align="center">
     <a href="#requirements">Requirements</a> •
-  	<a href="#installation">Installation</a> •
+  	<a href="#installation">Usage</a> •
 	<a href="#controls">Controls</a> •
   	<a href="#license">License</a>
 </p>
@@ -15,11 +15,8 @@
 * Python 3.7
 * [Pyxel 1.2.10](https://github.com/kitao/pyxel)
 
-## Installation
+## Usage
 ```bash
-# Download the project files
-$ git clone https://github.com/RYZARE/mazoku
-
 # Install dependencies
 $ pip install -r requirements.txt
 
@@ -40,6 +37,6 @@ $ python3 mazoku.py
 
 ## License
 
-Copyright (c) 2020 by ***RYZARE***
+Copyright (c) 2020 by ***Kamil Marut***
 
 `mazoku` is under the terms of the [MIT License](https://www.tldrlegal.com/l/mit), following all clarifications stated in the [license file](LICENSE).
