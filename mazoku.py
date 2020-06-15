@@ -110,11 +110,14 @@ class Game:
                             wall_rays = []
                             for wx in range(2):
                                 for wy in range(2):
-                                    vx = test_x + wx - self.player_x
-                                    vy = test_y + wy - self.player_y
-                                    d = math.sqrt(vx**2 + vy**2)
-                                    dot = (view_x * vx / d) + (view_y * vy / d)
-                                    wall_rays.append((d, dot))
+                                    try:
+                                        vx = test_x + wx - self.player_x
+                                        vy = test_y + wy - self.player_y
+                                        d = math.sqrt(vx**2 + vy**2)
+                                        dot = (view_x * vx / d) + (view_y * vy / d)
+                                        wall_rays.append((d, dot))
+                                    except ZeroDivisionError as e:
+                                        pass
 
                             # Sort to find the closest
                             wall_rays.sort()
