@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mazoku"
+version = "1.0.0"
+description = "Maze solving game with randomly generated mazes and raycasting"
+authors = ["Kamil Marut <kamil@kamilmarut.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyxel = "^2.0.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

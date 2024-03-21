@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="docs/logo.png" width="125">
+    <img src="docs/logo.png" width="128">
     <p align="center">Maze solving game with randomly generated mazes and raycasting.</p>
 </p>
 
@@ -10,18 +10,23 @@
   	<a href="#license">License</a>
 </p>
 
-## Requirements
-
-* Python 3.7
-* [Pyxel 1.2.10](https://github.com/kitao/pyxel)
-
 ## Usage
+
+### Running from source
+
+#### Requirements
+
+* Python ^3.11
+* [Pyxel ^2.0.9](https://github.com/kitao/pyxel)
+
+#### Commands
+
 ```bash
 # Install dependencies
-$ pip install -r requirements.txt
+$ poetry install
 
 # Run the game
-$ python3 mazoku.py
+$ poetry run python mazoku.py
 ```
 
 ## Controls
