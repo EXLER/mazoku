@@ -1,4 +1,5 @@
 import math
+from typing import Self
 
 import pyxel
 
@@ -14,7 +15,7 @@ GENERATOR_MAP_HEIGHT = int(MAP_HEIGHT / 2 - 1)
 
 
 class Game:
-    def __init__(self, game_map):
+    def __init__(self: Self, game_map: str) -> None:
         self.maze_map = game_map.split("\n")
 
         pyxel.init(SCREEN_WIDTH, SCREEN_HEIGHT, title="Mazoku")
@@ -26,17 +27,17 @@ class Game:
         self.show_boundaries = True
         self.show_minimap = False
 
-        self.player_x = 3
-        self.player_y = 3
-        self.player_z = 1
+        self.player_x: int | float = 3
+        self.player_y: int | float = 3
+        self.player_z: int | float = 1
         self.fov = math.pi / 4
         self.speed = 0.2  # Movement speed
         self.complete = False
 
-    def run(self):
+    def run(self: Self) -> None:
         pyxel.run(self.update, self.draw)
 
-    def update(self):
+    def update(self: Self) -> None:
         self.tp2 = pyxel.frame_count
         delta_time = self.tp2 - self.tp1
         self.tp1 = self.tp2
@@ -55,15 +56,13 @@ class Game:
                 self.player_z += 0.05 * delta_time
 
         if pyxel.btnr(pyxel.KEY_R):
-            self.maze_map = Maze.generate(
-                GENERATOR_MAP_WIDTH, GENERATOR_MAP_HEIGHT
-            ).split("\n")
+            self.maze_map = Maze.generate(GENERATOR_MAP_WIDTH, GENERATOR_MAP_HEIGHT).split("\n")
             self.complete = False
 
         if pyxel.btnr(pyxel.KEY_M):
             self.show_minimap = not self.show_minimap
 
-    def draw(self):
+    def draw(self: Self) -> None:
         if not self.complete:
             start = 0
             if self.render_alt:
@@ -72,11 +71,9 @@ class Game:
 
             for x in range(start, SCREEN_WIDTH, 2):
                 # For each column, calculate the ray angle projected
-                ray_angle = (self.player_z - self.fov / 2) + (
-                    x / SCREEN_WIDTH
-                ) * self.fov
+                ray_angle = (self.player_z - self.fov / 2) + (x / SCREEN_WIDTH) * self.fov
 
-                ray_distance = 0
+                ray_distance = 0.0
                 ray_hit_wall = False
                 ray_hit_exit = False
                 ray_boundary = False
@@ -91,20 +88,12 @@ class Game:
                     test_x = int(self.player_x + view_x * ray_distance)
                     test_y = int(self.player_y + view_y * ray_distance)
 
-                    if (
-                        test_x < 0
-                        or test_x >= MAP_WIDTH
-                        or test_y < 0
-                        or test_y >= MAP_HEIGHT
-                    ):
+                    if test_x < 0 or test_x >= MAP_WIDTH or test_y < 0 or test_y >= MAP_HEIGHT:
                         ray_hit_wall = True
                         ray_distance = self.depth
                     else:
                         # Ray is still inside map space, check if the ray cell is a wall
-                        if (
-                            self.maze_map[test_y][test_x] == "#"
-                            or self.maze_map[test_y][test_x] == "%"
-                        ):
+                        if self.maze_map[test_y][test_x] == "#" or self.maze_map[test_y][test_x] == "%":
                             ray_hit_wall = True
 
                             if self.maze_map[test_y][test_x] == "%":
@@ -128,10 +117,7 @@ class Game:
 
                             # Look for small angles with closest corners
                             bound = 0.01
-                            if (
-                                math.acos(wall_rays[0][1]) < bound
-                                or math.acos(wall_rays[1][1]) < bound
-                            ):
+                            if math.acos(wall_rays[0][1]) < bound or math.acos(wall_rays[1][1]) < bound:
                                 ray_boundary = True
 
                 # Calculate distances to ceiling and floor
@@ -155,17 +141,9 @@ class Game:
                                 shade = pyxel.COLOR_GREEN
                             else:
                                 if x % 2:
-                                    shade = (
-                                        pyxel.COLOR_WHITE
-                                        if y % 2
-                                        else pyxel.COLOR_BLACK
-                                    )
+                                    shade = pyxel.COLOR_WHITE if y % 2 else pyxel.COLOR_BLACK
                                 else:
-                                    shade = (
-                                        pyxel.COLOR_BLACK
-                                        if y % 2
-                                        else pyxel.COLOR_WHITE
-                                    )
+                                    shade = pyxel.COLOR_BLACK if y % 2 else pyxel.COLOR_WHITE
                         elif ray_distance < self.depth / 3:
                             if ray_hit_exit:
                                 shade = pyxel.COLOR_GREEN
@@ -176,17 +154,9 @@ class Game:
                                 shade = pyxel.COLOR_BROWN
                             else:
                                 if x % 2:
-                                    shade = (
-                                        pyxel.COLOR_BROWN
-                                        if y % 2
-                                        else pyxel.COLOR_BLACK
-                                    )
+                                    shade = pyxel.COLOR_BROWN if y % 2 else pyxel.COLOR_BLACK
                                 else:
-                                    shade = (
-                                        pyxel.COLOR_BLACK
-                                        if y % 2
-                                        else pyxel.COLOR_BROWN
-                                    )
+                                    shade = pyxel.COLOR_BLACK if y % 2 else pyxel.COLOR_BROWN
                         elif ray_distance < self.depth:
                             shade = pyxel.COLOR_BLACK
 
@@ -202,32 +172,16 @@ class Game:
                             shade = pyxel.COLOR_LIGHT_BLUE
                         elif b < 0.5:
                             if x % 2:
-                                shade = (
-                                    pyxel.COLOR_LIGHT_BLUE
-                                    if y % 2
-                                    else pyxel.COLOR_NAVY
-                                )
+                                shade = pyxel.COLOR_LIGHT_BLUE if y % 2 else pyxel.COLOR_NAVY
                             else:
-                                shade = (
-                                    pyxel.COLOR_NAVY
-                                    if y % 2
-                                    else pyxel.COLOR_LIGHT_BLUE
-                                )
+                                shade = pyxel.COLOR_NAVY if y % 2 else pyxel.COLOR_LIGHT_BLUE
                         elif b < 0.75:
                             shade = pyxel.COLOR_DARK_BLUE
                         elif b < 0.9:
                             if x % 2:
-                                shade = (
-                                    pyxel.COLOR_DARK_BLUE
-                                    if y % 2
-                                    else pyxel.COLOR_BLACK
-                                )
+                                shade = pyxel.COLOR_DARK_BLUE if y % 2 else pyxel.COLOR_BLACK
                             else:
-                                shade = (
-                                    pyxel.COLOR_BLACK
-                                    if y % 2
-                                    else pyxel.COLOR_DARK_BLUE
-                                )
+                                shade = pyxel.COLOR_BLACK if y % 2 else pyxel.COLOR_DARK_BLUE
                         else:
                             shade = pyxel.COLOR_BLACK
 
@@ -265,7 +219,7 @@ class Game:
             py = int(self.player_y)
             pyxel.rect(px * 2 + startx, py * 2 + starty, 2, 2, pyxel.COLOR_CYAN)
 
-    def move_forward(self, delta_time):
+    def move_forward(self: Self, delta_time: int) -> None:
         new_x = self.player_x + math.sin(self.player_z) * self.speed * delta_time
         new_y = self.player_y + math.cos(self.player_z) * self.speed * delta_time
 
@@ -276,7 +230,7 @@ class Game:
                 self.player_x = new_x
                 self.player_y = new_y
 
-    def move_backward(self, delta_time):
+    def move_backward(self: Self, delta_time: int) -> None:
         new_x = self.player_x - math.sin(self.player_z) * self.speed * delta_time
         new_y = self.player_y - math.cos(self.player_z) * self.speed * delta_time
 
@@ -287,10 +241,10 @@ class Game:
                 self.player_x = new_x
                 self.player_y = new_y
 
-    def collides(self, x, y):
+    def collides(self: Self, x: int | float, y: int | float) -> bool:
         return self.maze_map[int(y)][int(x)] == "#"
 
-    def entered_exit(self, x, y):
+    def entered_exit(self: Self, x: int | float, y: int | float) -> bool:
         return self.maze_map[int(y)][int(x)] == "%"
 
 

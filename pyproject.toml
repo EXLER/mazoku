@@ -10,6 +10,20 @@ readme = "README.md"
 python = "^3.11"
 pyxel = "^2.0.9"
 
+[tool.black]
+line-length = 120
+target-version = ["py311"]
+
+[tool.ruff]
+select = ["E", "F", "ANN", "S", "A", "G", "PIE", "T20", "RSE", "PTH", "PD", "TRY", "RUF"]
+ignore = ["ANN401"]
+line-length = 120
+target-version = "py311"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.4"
+black = "^24.3.0"
+mypy = "^1.9.0"
 
 [build-system]
 requires = ["poetry-core"]
