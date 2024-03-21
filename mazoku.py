@@ -1,4 +1,5 @@
 import math
+import random
 from typing import Self
 
 import pyxel
@@ -26,13 +27,30 @@ class Game:
         self.render_alt = True
         self.show_boundaries = True
         self.show_minimap = False
+        self.show_debug = False
 
-        self.player_x: int | float = 3
-        self.player_y: int | float = 3
-        self.player_z: int | float = 1
+        self.player_x, self.player_y, self.player_z = self.get_player_starting_position()
         self.fov = math.pi / 4
         self.speed = 0.2  # Movement speed
         self.complete = False
+
+    def get_player_starting_position(self: Self) -> tuple[float, float, float]:
+        x = random.randint(0, MAP_WIDTH - 2)  # noqa: S311
+        y = random.randint(0, MAP_HEIGHT - 2)  # noqa: S311
+        while self.maze_map[y][x] != ".":
+            x = random.randint(0, MAP_WIDTH - 2)  # noqa: S311
+            y = random.randint(0, MAP_HEIGHT - 2)  # noqa: S311
+
+        if self.maze_map[y][x - 1] == "#":
+            z = 0.0
+        elif self.maze_map[y][x + 1] == "#":
+            z = 0.5
+        elif self.maze_map[y - 1][x] == "#":
+            z = 1.0
+        else:
+            z = 0.0
+
+        return x, y, z
 
     def run(self: Self) -> None:
         pyxel.run(self.update, self.draw)
@@ -57,10 +75,14 @@ class Game:
 
         if pyxel.btnr(pyxel.KEY_R):
             self.maze_map = Maze.generate(GENERATOR_MAP_WIDTH, GENERATOR_MAP_HEIGHT).split("\n")
+            self.player_x, self.player_y, self.player_z = self.get_player_starting_position()
             self.complete = False
 
         if pyxel.btnr(pyxel.KEY_M):
             self.show_minimap = not self.show_minimap
+
+        if pyxel.btnr(pyxel.KEY_F10):
+            self.show_debug = not self.show_debug
 
     def draw(self: Self) -> None:
         if not self.complete:
@@ -218,6 +240,12 @@ class Game:
             px = int(self.player_x)
             py = int(self.player_y)
             pyxel.rect(px * 2 + startx, py * 2 + starty, 2, 2, pyxel.COLOR_CYAN)
+
+        # Draw debug info
+        if self.show_debug:
+            pyxel.text(2, 2, f"X: {self.player_x}", pyxel.COLOR_YELLOW)
+            pyxel.text(2, 10, f"Y: {self.player_y}", pyxel.COLOR_YELLOW)
+            pyxel.text(2, 18, f"Z: {self.player_z}", pyxel.COLOR_YELLOW)
 
     def move_forward(self: Self, delta_time: int) -> None:
         new_x = self.player_x + math.sin(self.player_z) * self.speed * delta_time
