@@ -12,6 +12,10 @@
 
 ## Usage
 
+### Running from binary
+
+Download the latest release from the [releases page](https://github.com/exler/mazoku/releases) and run the executable. 
+
 ### Running from source
 
 #### Requirements
@@ -39,6 +43,7 @@ $ poetry run python mazoku.py
 * `A/D` - Turn left/right
 * `M` - Turn minimap off/on
 * `R` - Generate new maze 
+* `F10` - Turn debug mode off/on
 
 ## License
 

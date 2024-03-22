@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 pyxel = "^2.0.9"
 
 [tool.black]
@@ -24,6 +24,7 @@ target-version = "py311"
 ruff = "^0.3.4"
 black = "^24.3.0"
 mypy = "^1.9.0"
+pyinstaller = "^6.5.0"
 
 [build-system]
 requires = ["poetry-core"]
